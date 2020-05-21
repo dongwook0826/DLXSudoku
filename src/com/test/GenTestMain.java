@@ -14,7 +14,7 @@ public class GenTestMain {
 
         System.out.print("Input the size of sudoku you want to generate(in one positive integer, up to 16)\n>>> ");
         int SIZE = sc.nextInt();
-        while(SIZE<=0 || SIZE>16){
+        while(SIZE<=0 || SIZE>25){
             System.out.printf("size out of range(%d) : try again\n>>> ", SIZE);
             SIZE = sc.nextInt();
         }
@@ -27,6 +27,8 @@ public class GenTestMain {
         }
 
         int VSIZE = SIZE/HSIZE; // = 3
+
+        long genStart = System.currentTimeMillis();
 
         String name = "Test problem : Sudoku Board Gen";
         String[] colNames = new String[SIZE*SIZE*4];
@@ -74,10 +76,11 @@ public class GenTestMain {
         sudoku.printSolution();
         System.out.println();
          */
+        long solveEnd = System.currentTimeMillis();
         printBoard(board, SIZE, HSIZE, VSIZE);
 
-        long solveEnd = System.currentTimeMillis();
-        System.out.printf("total %4.3f sec taken\n", (solveEnd - solveStart)/1000.0);
+        System.out.printf("Generating : %4.3f sec\n", (solveStart - genStart)/1000.0);
+        System.out.printf("Solving : %4.3f sec\n", (solveEnd - solveStart)/1000.0);
         // sc.close();
     }
 

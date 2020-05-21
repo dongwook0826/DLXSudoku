@@ -13,6 +13,7 @@ public class ToricLinkedList {
     public HeaderQNode root;
     private int solutionCnt = 0;
     private QNode[] solution = null;
+    private int branchDiff = 0;
 
     public ToricLinkedList(){
         root = new HeaderQNode();
@@ -156,7 +157,7 @@ public class ToricLinkedList {
     }
 
     public void searchSolution(){
-        this.searchSolution(Integer.MAX_VALUE-1);
+        this.searchSolution(2 /*Integer.MAX_VALUE-1*/);
     }
 
     public void searchSolution(int maxCnt){
@@ -171,6 +172,7 @@ public class ToricLinkedList {
          */
 
         solutionCnt = 0;
+        branchDiff = 0;
         QNode[] stack = new QNode[root.cnt];
         int depth = 0;
         boolean currentlyValid = true;
@@ -189,6 +191,14 @@ public class ToricLinkedList {
                     }
                     if(solutionCnt >= maxCnt){
                         // System.out.println("too many solutions searched");
+                        // uncover all covered QNodes on stack
+                        while(depth>0){
+                            QNode qnd = stack[--depth].leftQNode;
+                            while(qnd != stack[depth]){
+                                uncover(qnd.headerQNode);
+                                qnd = qnd.leftQNode;
+                            }uncover(stack[depth].headerQNode);
+                        }
                         break;
                     }
                     /*
@@ -231,6 +241,7 @@ public class ToricLinkedList {
                     cover(qnd.headerQNode);
                     qnd = qnd.rightQNode;
                 }
+                branchDiff+=(minColNd.cnt-1)*(minColNd.cnt-1);
                 depth++;
             }else{ // backtrack & change branch
                 QNode qnd = stack[depth].leftQNode;
@@ -281,7 +292,15 @@ public class ToricLinkedList {
                 if(colNd == root){ // solution found; return point
                     solutionCnt++;
                     solution = Arrays.copyOf(stack, depth);
-                    return;
+                    // uncover all covered QNodes on stack
+                    while(depth>0){
+                        QNode qnd = stack[--depth].leftQNode;
+                        while(qnd != stack[depth]){
+                            uncover(qnd.headerQNode);
+                            qnd = qnd.leftQNode;
+                        }uncover(stack[depth].headerQNode);
+                    }
+                    break;
                 }
 
                 int minCnt = Integer.MAX_VALUE; // minimum val. of colNd.cnt
@@ -345,13 +364,11 @@ public class ToricLinkedList {
         }
     }
 
-    public int getSolutionCnt(){
-        return solutionCnt;
-    }
+    public int getSolutionCnt() { return solutionCnt; }
 
-    public QNode[] getSolution(){
-        return solution;
-    }
+    public QNode[] getSolution() { return solution; }
+
+    public int getBranchDiff() { return branchDiff; }
 
     public void printSolution(){ // default print
         if(solution == null) return;
