@@ -1,10 +1,10 @@
-package com.test;
+package test;
 
 import sudoku.*;
 import java.util.Scanner;
 
 public class CompleteGenTestMain {
-    public static void main(String[] args) throws InvalidSudokuSizeException, SudokuBoxSizeException, SizeNotDivisibleException {
+    public static void main(String[] args) throws SudokuException {
 
         int size, hsize, vsize;
         int maximaSearchCnt = 1500;

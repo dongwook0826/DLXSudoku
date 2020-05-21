@@ -17,19 +17,19 @@ public class SudokuTemplate {
      */
 
     public SudokuTemplate()
-            throws InvalidSudokuSizeException, SudokuBoxSizeException, SizeNotDivisibleException {
+            throws SudokuException {
         this(9, 3);
     }
 
     public SudokuTemplate(int size, int hsize)
-            throws InvalidSudokuSizeException, SudokuBoxSizeException, SizeNotDivisibleException {
+            throws SudokuException {
 
         if(size <= 0 || size > 25){
-            throw new InvalidSudokuSizeException(size);
+            throw new SudokuException(size, true);
         }else if(hsize <= 0 || hsize >= size){
-            throw new SudokuBoxSizeException(hsize);
+            throw new SudokuException(hsize, false);
         }else if(size % hsize != 0){
-            throw new SizeNotDivisibleException(size, hsize);
+            throw new SudokuException(size, hsize);
         }
 
         this.size = size;

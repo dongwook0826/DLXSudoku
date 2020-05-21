@@ -16,7 +16,7 @@ public class SudokuMaker {
     };
 
     public static void main(String[] args)
-            throws InvalidSudokuSizeException, SudokuBoxSizeException, SizeNotDivisibleException, IOException, InterruptedException {
+            throws SudokuException, IOException, InterruptedException {
 
         String choiceStr;
         int choice;
@@ -509,6 +509,7 @@ public class SudokuMaker {
                                         System.out.println("Try again : input out of range");
                                     } else break;
                                 }maximaSearchCnt = choice;
+                                searchCnt = maximaSearchCnt / threadNum;
                                 break;
                             case 2 :
                                 System.out.println("\nInput the new number of searching threads (4~50 recommended; 1~[maxima searching cnt] possible)");
@@ -533,6 +534,7 @@ public class SudokuMaker {
                                         System.out.println("Try again : input out of range");
                                     } else break;
                                 }threadNum = choice;
+                                searchCnt = maximaSearchCnt / threadNum;
                                 break;
                             case 3 :
                                 System.out.println("\nInput the new iteration rate (150~200 recommended; 100~300 possible)");
@@ -581,6 +583,7 @@ public class SudokuMaker {
                                         System.out.println("Try again : input out of range");
                                     } else break;
                                 }difficultyLimit = choice;
+                                break;
                             case 5 :
                                 System.out.println("\nInput the new empty-cell character (any character but for digit & alphabet is possible; *, _, $, /, etc.)");
                                 while (true) {

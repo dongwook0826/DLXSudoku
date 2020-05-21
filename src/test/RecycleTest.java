@@ -1,9 +1,9 @@
-package com.test;
+package test;
 
 import sudoku.*;
 
 public class RecycleTest {
-    public static void main(String[] args) throws InvalidSudokuSizeException, SudokuBoxSizeException, SizeNotDivisibleException {
+    public static void main(String[] args) throws SudokuException {
         SudokuTemplate template = new SudokuTemplate();
 
         int[][] puzzle1 = {

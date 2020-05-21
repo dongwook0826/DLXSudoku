@@ -1,4 +1,4 @@
-package com.test;
+package test;
 
 import dlx.*;
 import java.util.Arrays;

@@ -47,7 +47,7 @@ public class SudokuGenThread implements Runnable {
     private static int cnt = 0;
 
     public SudokuGenThread(int searchCnt)
-            throws InvalidSudokuSizeException, SudokuBoxSizeException, SizeNotDivisibleException {
+            throws SudokuException {
         SDK_TEMPLATE = new SudokuTemplate(size, hsize);
         this.searchCnt = searchCnt;
     }
@@ -102,6 +102,7 @@ public class SudokuGenThread implements Runnable {
         baseGrid = SDK_TEMPLATE.solutionInIntArray();
     }
 
+    /*
     // if all gen threads are desired to play under the same baseGrid
     public void setBaseGrid(int[][] baseGrid){
         this.baseGrid = new int[baseGrid.length][];
@@ -112,7 +113,7 @@ public class SudokuGenThread implements Runnable {
 
     public int[][] getBaseGrid(){
         return baseGrid;
-    }
+    }*/
 
     private int[][] searchwiseBestGrid;
     private int searchwiseBestDifficulty;
