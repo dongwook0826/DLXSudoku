@@ -27,11 +27,11 @@ public class SudokuMaker {
         int geometryIndicator;
 
         // changeable only in setting menu
-        int maximaSearchCnt = 1500;
-        int threadNum = 10;
+        int maximaSearchCnt = 3000;
+        int threadNum = 30;
         int searchCnt = maximaSearchCnt / threadNum; // = 150 in default
         int iterationRate = 200;
-        int difficultyLimit = 9;
+        int difficultyLimit = 99;
 
         final String[] SYMMETRY_LIST = {
                 "Go back to size setting",
@@ -183,7 +183,12 @@ public class SudokuMaker {
                             if(choice > 8 || choice < 0){
                                 System.out.println("Try again : invalid input");
                             }else break;
-                        }geometryIndicator = choice;
+                        }
+                        if(choice == 0){
+                            System.out.println("Quit generating; go back to size choice");
+                            continue;
+                        }
+                        geometryIndicator = choice;
 
                         // all values assigned
                         System.out.println("\nInput values : ");
@@ -447,18 +452,18 @@ public class SudokuMaker {
                             long solveEnd = System.currentTimeMillis();
 
                             System.out.println("\nSolution :");
-                            printBoard(sdkTempl.solutionInIntArray(), size, hsize, vsize);
                             switch (sdkInfo[0]) {
-                                case 0:
-                                    System.out.println("No solution");
-                                    break;
-                                case 2:
+                                case 0 -> System.out.println("No solution");
+                                case 2 -> {
+                                    printBoard(sdkTempl.solutionInIntArray(), size, hsize, vsize);
                                     System.out.println("Multiple solutions");
-                                    break;
-                                case 1:
+                                }
+                                case 1 -> {
+                                    printBoard(sdkTempl.solutionInIntArray(), size, hsize, vsize);
                                     System.out.println("Unique solution");
                                     System.out.printf("Difficulty rate : %4.3f\n", sdkInfo[1] + sdkInfo[2] / ((double) size * size));
                                     System.out.printf("Solving time    : %4.3f\n", (solveEnd - solveStart) / 1000.0);
+                                }
                             }
                         }
                         TimeUnit.MILLISECONDS.sleep(500);
@@ -487,9 +492,9 @@ public class SudokuMaker {
                         }
                         if(choice == 0) continue gameLoop;
 
-                        switch(choice){
-                            case 1 :
-                                System.out.println("\nInput the new maxima searching count (1000~1500 recommended; 1~2000 possible)");
+                        switch (choice) {
+                            case 1 -> {
+                                System.out.println("\nInput the new maxima searching count (1000~1500 recommended; 1~3000 possible)");
                                 inputLoop:
                                 while (true) {
                                     System.out.print(">>>>>>>> ");
@@ -505,13 +510,14 @@ public class SudokuMaker {
                                         }
                                     }
                                     choice = Integer.parseInt(choiceStr);
-                                    if (choice <= 0 || choice > 2000) {
+                                    if (choice <= 0 || choice > 3000) {
                                         System.out.println("Try again : input out of range");
                                     } else break;
-                                }maximaSearchCnt = choice;
+                                }
+                                maximaSearchCnt = choice;
                                 searchCnt = maximaSearchCnt / threadNum;
-                                break;
-                            case 2 :
+                            }
+                            case 2 -> {
                                 System.out.println("\nInput the new number of searching threads (4~50 recommended; 1~[maxima searching cnt] possible)");
                                 inputLoop:
                                 while (true) {
@@ -530,13 +536,14 @@ public class SudokuMaker {
                                     choice = Integer.parseInt(choiceStr);
                                     if (choice > maximaSearchCnt) {
                                         System.out.println("Try again : thread number larger than maxima search count");
-                                    } else if (choice <= 0){
+                                    } else if (choice <= 0) {
                                         System.out.println("Try again : input out of range");
                                     } else break;
-                                }threadNum = choice;
+                                }
+                                threadNum = choice;
                                 searchCnt = maximaSearchCnt / threadNum;
-                                break;
-                            case 3 :
+                            }
+                            case 3 -> {
                                 System.out.println("\nInput the new iteration rate (150~200 recommended; 100~300 possible)");
                                 System.out.println("[[[ Notice ]]]");
                                 System.out.println("  This iteration rate is for generating standard 9*9 Sudoku;");
@@ -560,9 +567,10 @@ public class SudokuMaker {
                                     if (choice < 100 || choice > 300) {
                                         System.out.println("Try again : input out of range");
                                     } else break;
-                                }iterationRate = choice;
-                                break;
-                            case 4 :
+                                }
+                                iterationRate = choice;
+                            }
+                            case 4 -> {
                                 System.out.println("\nInput the new difficulty limit (9~100 recommended; 0~2147483647 possible)");
                                 inputLoop:
                                 while (true) {
@@ -579,24 +587,27 @@ public class SudokuMaker {
                                         }
                                     }
                                     choice = Integer.parseInt(choiceStr);
-                                    if (choice < 0){
+                                    if (choice < 0) {
                                         System.out.println("Try again : input out of range");
                                     } else break;
-                                }difficultyLimit = choice;
-                                break;
-                            case 5 :
+                                }
+                                difficultyLimit = choice;
+                            }
+                            case 5 -> {
                                 System.out.println("\nInput the new empty-cell character (any character but for digit & alphabet is possible; *, _, $, /, etc.)");
                                 while (true) {
                                     System.out.print(">>>>>>>> ");
                                     choiceStr = sc.nextLine();
                                     if (choiceStr.length() == 0) {
                                         System.out.println("Try again : no input");
-                                    }else if(choiceStr.length() > 1){
+                                    } else if (choiceStr.length() > 1) {
                                         System.out.println("Try again : multiple characters input");
-                                    }else if (Character.isLetterOrDigit(choiceStr.charAt(0))) {
+                                    } else if (Character.isLetterOrDigit(choiceStr.charAt(0))) {
                                         System.out.println("Try again : invalid input for empty-cell character");
-                                    }else break;
-                                }emptyCellChar = choiceStr.charAt(0);
+                                    } else break;
+                                }
+                                emptyCellChar = choiceStr.charAt(0);
+                            }
                         }
                     }
             }

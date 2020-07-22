@@ -12,7 +12,7 @@ public class ToricLinkedList {
 
     public HeaderQNode root;
     private int solutionCnt = 0;
-    private QNode[] solution = null;
+    private QNode[] solution = {};
     private int branchDiff = 0;
 
     public ToricLinkedList(){

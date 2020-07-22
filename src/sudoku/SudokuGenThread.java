@@ -71,29 +71,32 @@ public class SudokuGenThread implements Runnable {
         difficulty = 0;
         emptyCellCnt = 0;
         cnt = 0;
-        switch(geometryIndicator){
-            case 6 :
-                usingAreaInd = new int[size*(size+1)/2][2];
-                for(int r=0, ind=0; r<size; r++){
-                    for(int c=0; c<size-r; c++){
-                        usingAreaInd[ind++] = new int[]{r,c};
+        switch (geometryIndicator) {
+            case 6 -> {
+                usingAreaInd = new int[size * (size + 1) / 2][2];
+                for (int r = 0, ind = 0; r < size; r++) {
+                    for (int c = 0; c < size - r; c++) {
+                        usingAreaInd[ind++] = new int[]{r, c};
                     }
-                }break;
-            case 7 :
-                usingAreaInd = new int[((size+1)/2)*(size/2+1)][2];
-                for(int r=0, ind=0; r<size; r++){
-                    int bound = r<size/2 ? r+1 : size-r;
-                    for(int c=0; c<bound; c++){
-                        usingAreaInd[ind++] = new int[]{r,c};
+                }
+            }
+            case 7 -> {
+                usingAreaInd = new int[((size + 1) / 2) * (size / 2 + 1)][2];
+                for (int r = 0, ind = 0; r < size; r++) {
+                    int bound = r < size / 2 ? r + 1 : size - r;
+                    for (int c = 0; c < bound; c++) {
+                        usingAreaInd[ind++] = new int[]{r, c};
                     }
-                }break;
-            case 8 :
-                usingAreaInd = new int[halfSize*(halfSize+1)/2][2];
-                for(int r=0, ind=0; r<(size+1)/2; r++){
-                    for(int c=0; c<=r; c++){
-                        usingAreaInd[ind++] = new int[]{r,c};
+                }
+            }
+            case 8 -> {
+                usingAreaInd = new int[halfSize * (halfSize + 1) / 2][2];
+                for (int r = 0, ind = 0; r < (size + 1) / 2; r++) {
+                    for (int c = 0; c <= r; c++) {
+                        usingAreaInd[ind++] = new int[]{r, c};
                     }
-                }break;
+                }
+            }
         }
     }
 
@@ -136,6 +139,7 @@ public class SudokuGenThread implements Runnable {
         }
 
         boolean eraseSwitch = true;
+        int axisEmpty;
 
         for(int iteration=0; iteration<iterationRate; iteration++){
             switch(geometryIndicator){
@@ -188,7 +192,7 @@ public class SudokuGenThread implements Runnable {
                         tempGrid[cind][size-rind-1] = baseGrid[cind][size-rind-1];
                     }break;
                 case 4 : // 1-way hori. reflx. sym.
-                    int axisEmpty = 0;
+                    axisEmpty = 0;
                     if(odd)
                         for(int[] row : tempGrid)
                             if(row[size/2] < 0) axisEmpty++;
